@@ -2,7 +2,7 @@ package common
 
 import (
 	"errors"
-	http2 "github.com/masjidpay/utilities/common/http"
+	http2 "github.com/masjidpay/golib/common/http"
 	"net/http"
 )
 

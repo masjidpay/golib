@@ -1,4 +1,4 @@
-module github.com/masjidpay/utilities
+module github.com/masjidpay/golib
 
 go 1.17
 
