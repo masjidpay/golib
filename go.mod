@@ -5,6 +5,7 @@ go 1.16
 require (
 	github.com/aliyun/aliyun-oss-go-sdk v2.2.2+incompatible // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/go-resty/resty/v2 v2.7.0 // indirect
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/rs/zerolog v1.26.1
 	github.com/stretchr/testify v1.7.0
