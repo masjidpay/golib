@@ -33,8 +33,29 @@ type HttpHandleResult struct {
 	IsPlainResponse bool
 }
 
+type HttpHandleResultV2 struct {
+	Data            interface{}
+	StatusCode      int
+	Pagination      *Pagination
+	Error           error
+	Message         []string
+	IsPlainResponse bool
+}
+
 type Response struct {
 	ResponseDesc string `json:"message" mapstructure:"message"`
+}
+
+type ResponseV2 struct {
+	StatusCode int         `json:"status" mapstructure:"status"`
+	Message    []string    `json:"message" mapstructure:"message"`
+	Success    bool        `json:"success" mapstructure:"sucess"`
+	Data       interface{} `json:"data" mapstructure:"data"`
+}
+
+type SuccessResponseV2 struct {
+	Pagination
+	Data interface{} `json:"data,omitempty" mapstructure:"data,omitempty"`
 }
 
 type SuccessResponse struct {
