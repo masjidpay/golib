@@ -45,7 +45,13 @@ type CustomWriterV2 struct {
 func (c *CustomWriterV2) Write(w http.ResponseWriter, data interface{}, statusCode int, pagination *Pagination, msg []string) {
 	var resp ResponseV2
 	resp.Success = true
+
+	if msg == nil {
+		msg = make([]string, 0)
+	}
+
 	resp.Message = msg
+
 	resp.StatusCode = statusCode
 
 	default_data := []interface{}{}
@@ -66,7 +72,7 @@ func (c *CustomWriterV2) Write(w http.ResponseWriter, data interface{}, statusCo
 		resp.StatusCode = http.StatusOK
 	}
 
-	writeResponseV2(w, resp)
+	writeResponseV2(w, resp, http.StatusOK)
 }
 
 func (c *CustomWriterV2) WritePlain(w http.ResponseWriter, data interface{}, statusCode int) {
@@ -83,16 +89,20 @@ func (c *CustomWriterV2) WriteError(w http.ResponseWriter, err error, msg []stri
 	resp.Message = msg
 	resp.Data = []interface{}{}
 
+	statusCode := http.StatusBadRequest
+
 	var errorResponse = &ErrorResponse{}
 
 	if len(c.C.E) > 0 {
 		errorResponse = LookupError(c.C.E, err)
 		if errorResponse == nil {
 			errorResponse = ErrUnknown
+			statusCode = http.StatusInternalServerError
 		}
 	} else {
 		if !(errors.As(err, &errorResponse)) {
 			errorResponse = ErrUnknown
+			statusCode = http.StatusInternalServerError
 		}
 	}
 
@@ -100,10 +110,11 @@ func (c *CustomWriterV2) WriteError(w http.ResponseWriter, err error, msg []stri
 		resp.Message = append(resp.Message, errorResponse.ResponseDesc)
 	}
 	resp.StatusCode = errorResponse.HttpStatus
-	writeResponseV2(w, resp)
+
+	writeResponseV2(w, resp, statusCode)
 
 }
 
-func writeResponseV2(w http.ResponseWriter, response ResponseV2) {
-	writeResponse(w, response, "application/json", response.StatusCode)
+func writeResponseV2(w http.ResponseWriter, response ResponseV2, statusCode int) {
+	writeResponse(w, response, "application/json", statusCode)
 }

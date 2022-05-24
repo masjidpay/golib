@@ -63,7 +63,7 @@ func TestFailureHandlerV2(t *testing.T) {
 		Response: Response{
 			ResponseDesc: "Custom Error",
 		},
-		HttpStatus: http.StatusBadRequest,
+		HttpStatus: http.StatusUnprocessableEntity,
 	}
 	handlerCtx.AddError(customErr, ErrResp)
 
@@ -84,7 +84,7 @@ func TestFailureHandlerV2(t *testing.T) {
 	_ = json.Unmarshal(body, respJson)
 
 	assert.Equal(t, http.StatusBadRequest, resp.StatusCode, "Expect 400 status code")
-	assert.Equal(t, http.StatusBadRequest, respJson.StatusCode, "Expect 400 status code in body")
+	assert.Equal(t, http.StatusUnprocessableEntity, respJson.StatusCode, "Expect 402 status code in body")
 	assert.Equal(t, false, respJson.Success, "Expect Success False")
 	assert.Equal(t, `[error msg 1 error msg 2]`, fmt.Sprintf("%s", respJson.Message), "Expect Correct message")
 	assert.Equal(t, `[]`, fmt.Sprintf("%s", respJson.Data), "Expect EMpty data")
