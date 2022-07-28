@@ -50,6 +50,45 @@ func (x *NullString) Scan(v interface{}) error {
 	return nil
 }
 
+//NullInt is a wrapper around sql.NullInt
+type NullInt16 sql.NullInt16
+
+//MarshalJSON method is called by json.Marshal,
+//whenever it is of type NullInt16
+func (x *NullInt16) MarshalJSON() ([]byte, error) {
+	if !x.Valid {
+		return []byte("null"), nil
+	}
+	return json.Marshal(x.Int16)
+}
+
+func (x NullInt16) Value() (driver.Value, error) {
+	if !x.Valid {
+		return nil, nil
+	}
+
+	return x.Int16, nil
+}
+
+func (x *NullInt16) Scan(v interface{}) error {
+	if v == nil {
+		*x = NullInt16{0, false}
+		return nil
+	}
+	var i sql.NullInt16
+	if err := i.Scan(v); err != nil {
+		return err
+	}
+
+	// if nil then make Valid false
+	if reflect.TypeOf(v) == nil {
+		*x = NullInt16{i.Int16, false}
+	} else {
+		*x = NullInt16{i.Int16, true}
+	}
+	return nil
+}
+
 type NullTime sql.NullTime
 
 func (x *NullTime) MarshalJSON() ([]byte, error) {
