@@ -30,7 +30,6 @@ func TestSuccessHandler(t *testing.T) {
 		response.Error = nil
 		response.StatusCode = 200
 
-
 		return
 	})
 
@@ -98,6 +97,7 @@ func TestSuccessPaginationHandler(t *testing.T) {
 			CurrentPage: 0,
 			TotalPage:   10,
 			NextPage:    1,
+			TotalData:   50,
 		}
 		response.StatusCode = 200
 		return

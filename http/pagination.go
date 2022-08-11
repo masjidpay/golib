@@ -57,5 +57,6 @@ func GetNextPagination(reqPage RequestPagination, dataCount int64) Pagination {
 		CurrentPage: currentPage,
 		TotalPage:   totalPage,
 		NextPage:    nextPage,
+		TotalData:   count,
 	}
 }

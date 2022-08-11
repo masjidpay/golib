@@ -116,6 +116,7 @@ func TestSuccessPaginationHandlerV2(t *testing.T) {
 			CurrentPage: 0,
 			TotalPage:   10,
 			NextPage:    1,
+			TotalData:   50,
 		}
 		response.StatusCode = 200
 		response.Data = "OK"

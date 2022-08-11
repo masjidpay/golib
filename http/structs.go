@@ -9,6 +9,7 @@ type Pagination struct {
 	CurrentPage int `json:"current_page" mapstructure:"current_page"`
 	TotalPage   int `json:"total_page" mapstructure:"total_page"`
 	NextPage    int `json:"next_page" mapstructure:"next_page"`
+	TotalData   int `json:"total_data" mapstructure:"total_data"`
 }
 
 type PaginationFields struct {
