@@ -15,15 +15,17 @@ func TestGetPagination(t *testing.T) {
 		SortField:   "order",
 		LimitField:  "page_size",
 		OffsetField: "page",
+		DateField:   "date",
+		TimeField:   "time",
 	}
 
-	page := GetPagination(req,10, paginationFields)
+	page := GetPagination(req, 10, paginationFields)
 	assert.Equal(t, 10, page.Offset, "Offset should be 10")
 	assert.Equal(t, 10, page.Limit, "Limit should be 10")
 
 	paginationFields.OffsetField = "hal"
 	paginationFields.LimitField = "batas"
-	page = GetPagination(req,1, paginationFields)
+	page = GetPagination(req, 1, paginationFields)
 	assert.Equal(t, 0, page.Offset, "Offset should be 0")
 	assert.Equal(t, 1, page.Limit, "Limit should be 1")
 }
@@ -35,9 +37,11 @@ func TestGetNextPagination(t *testing.T) {
 		SortField:   "order",
 		LimitField:  "page_size",
 		OffsetField: "page",
+		DateField:   "date",
+		TimeField:   "time",
 	}
 
-	reqPage := GetPagination(req,10, paginationFields)
+	reqPage := GetPagination(req, 10, paginationFields)
 	var dataCount int64 = 90
 
 	nextPage := GetNextPagination(reqPage, dataCount)
@@ -47,7 +51,7 @@ func TestGetNextPagination(t *testing.T) {
 	assert.Equal(t, 10, nextPage.PageSize, "PageSize should be 10")
 
 	req = httptest.NewRequest(http.MethodGet, "/?page=2&page_size=10", nil)
-	reqPage = GetPagination(req,10, paginationFields)
+	reqPage = GetPagination(req, 10, paginationFields)
 	nextPage = GetNextPagination(reqPage, dataCount)
 	assert.Equal(t, 3, nextPage.NextPage, "NextPage should be 3")
 	assert.Equal(t, 2, nextPage.CurrentPage, "CurrentPage should be 2")
@@ -57,7 +61,7 @@ func TestGetNextPagination(t *testing.T) {
 	dataCount = 33
 
 	req = httptest.NewRequest(http.MethodGet, "/?page=3&page_size=5", nil)
-	reqPage = GetPagination(req,10, paginationFields)
+	reqPage = GetPagination(req, 10, paginationFields)
 	nextPage = GetNextPagination(reqPage, dataCount)
 	assert.Equal(t, 4, nextPage.NextPage, "NextPage should be 4")
 	assert.Equal(t, 3, nextPage.CurrentPage, "CurrentPage should be 3")

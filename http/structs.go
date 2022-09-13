@@ -17,6 +17,8 @@ type PaginationFields struct {
 	SortField   string
 	LimitField  string
 	OffsetField string
+	DateField   string
+	TimeField   string
 }
 
 type RequestPagination struct {
@@ -24,6 +26,8 @@ type RequestPagination struct {
 	Sort   []string
 	Limit  int
 	Offset int
+	Date   string
+	Time   string
 }
 
 type HttpHandleResult struct {

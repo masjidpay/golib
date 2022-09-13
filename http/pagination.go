@@ -11,6 +11,8 @@ func GetPagination(r *http.Request, defaultPageSize int, fields PaginationFields
 	sort := r.URL.Query().Get(fields.SortField)
 	page, _ := strconv.Atoi(r.URL.Query().Get(fields.OffsetField))
 	pageSize, _ := strconv.Atoi(r.URL.Query().Get(fields.LimitField))
+	date := r.URL.Query().Get(fields.DateField)
+	time := r.URL.Query().Get(fields.TimeField)
 
 	sorts := []string{}
 	if sort != "" {
@@ -30,6 +32,8 @@ func GetPagination(r *http.Request, defaultPageSize int, fields PaginationFields
 		Sort:   sorts,
 		Limit:  pageSize,
 		Offset: (page - 1) * pageSize,
+		Date:   date,
+		Time:   time,
 	}
 }
 
