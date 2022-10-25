@@ -19,6 +19,7 @@ type OSSCOnfig struct {
 type OSSInterface interface {
 	Start() (client *oss.Client, err error)
 	Upload(key string, object []byte) (url string, err error)
+	Delete(key string) (err error)
 }
 
 type ossInstance struct {
@@ -71,5 +72,20 @@ func (o *ossInstance) Upload(key string, object []byte) (url string, err error) 
 		return
 	}
 	url = fmt.Sprintf(o.Url+"/%s", key)
+	return
+}
+
+func (o *ossInstance) Delete(key string) (err error) {
+	bucket, err := o.client.Bucket(o.Bucket)
+	if err != nil {
+		log.Error().Err(err).Msg("error on access bucket")
+		return
+	}
+
+	err = bucket.DeleteObject(key)
+	if err != nil {
+		log.Error().Err(err).Msg("error on deleting file from bucket")
+		return
+	}
 	return
 }
